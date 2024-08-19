@@ -1,11 +1,12 @@
 const bcryptjs = require("bcryptjs");
 const User = require("../Model/UserModel/UserModel");
+const errorHandler = require("../middleware/errorMiddleWare");
 
 // signup
 const SignUp = async (req, res, next) => {
-  const { username, email, password } = req.body;
-
   try {
+    const { username, email, password } = req.body;
+
     if (
       !username ||
       !email ||
@@ -15,6 +16,14 @@ const SignUp = async (req, res, next) => {
       password == ""
     ) {
       next(errorHandler(400, "All field are required"));
+    }
+
+    const isUser = await User.findOne({
+      email,
+    });
+
+    if (isUser) {
+      next(errorHandler(401, "user is already registered"));
     }
 
     const hassedPassword = bcryptjs.hashSync(password, 10);
@@ -30,7 +39,7 @@ const SignUp = async (req, res, next) => {
       msg: "success",
       user: {
         username: user.username,
-        email: user.username,
+        email: user.email,
       },
     });
   } catch (error) {

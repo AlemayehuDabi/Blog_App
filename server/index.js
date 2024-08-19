@@ -2,18 +2,22 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const mongoose = require("mongoose");
-const authRouter = require("./Routes/AuthController");
+const authRouter = require("./Routes/AuthRoute");
 const errorMiddle = require("./middleware/errorMiddleWare");
+// const cors = require("cors"); using fetch api no cors
+// json
+app.use(express.json());
+// middleware
+app.use(errorMiddle);
 
 // dotenv
 PORT = process.env.PORT;
 MONGO_URL = process.env.MONGO_URL;
 
+// cors
+// app.use(cors("http://localhoast:5173"));
 // api
 app.use("/api/auth", authRouter);
-
-// middleware
-app.use(errorMiddle);
 
 // mongodb connection
 mongoose

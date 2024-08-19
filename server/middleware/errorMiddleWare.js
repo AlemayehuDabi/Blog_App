@@ -1,10 +1,10 @@
 const errorMiddle = (error, req, res, next) => {
-  const statusCode = error.statusCode || 500;
-  const msg = error.msg || "Internal Server Error";
+  const statusCode = error.status || 500;
+  const message = error.message || "Internal Server Error";
   return res.status(statusCode).json({
     status: false,
     statusCode,
-    msg: msg,
+    message,
   });
 };
 
