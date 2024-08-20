@@ -55,7 +55,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen mt-20 ml-5 md:max-w-3xl md:mx-auto md:flex">
+    <div className="min-h-screen mt-20 mx-5 md:max-w-3xl md:mx-auto md:flex">
       {/* left side */}
       <div className="flex-1 space-y-6">
         <Link to="/" className="text-xl font-bold sm:text-4xl dark:text-white">
