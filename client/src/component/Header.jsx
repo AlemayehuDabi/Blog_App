@@ -40,7 +40,7 @@ const Header = () => {
             pill
             gradientDuoTone="purpleToBlue"
           >
-            Sign In
+            <span>Sign In</span>
           </Button>
         </Link>
         <Navbar.Toggle />

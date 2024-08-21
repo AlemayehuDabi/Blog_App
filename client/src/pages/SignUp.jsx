@@ -1,12 +1,13 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.id]: e.target.value.trim() });
@@ -48,6 +49,8 @@ const SignUp = () => {
           email: "",
           password: "",
         });
+
+        navigate("/");
       }
     } catch (error) {
       setError(error);
@@ -148,9 +151,9 @@ const SignUp = () => {
           )}
         </form>
         <div>
-          <Link to="/sign-in">
+          <Link to="/login">
             Have account?
-            <span className="ml-2 text-green-500 font-semibold">Login</span>
+            <span className="ml-2 text-green-500 text-lg">Login</span>
           </Link>
         </div>
       </div>
