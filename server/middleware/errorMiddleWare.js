@@ -1,8 +1,8 @@
-const errorMiddle = (error, req, res, next) => {
-  const statusCode = error.status || 500;
-  const message = error.message || "Internal Server Error";
-  return res.status(statusCode).json({
-    status: false,
+const errorMiddle = (err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  res.status(statusCode).json({
+    success: false,
     statusCode,
     message,
   });
