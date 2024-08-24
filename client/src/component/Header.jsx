@@ -45,7 +45,7 @@ const Header = () => {
       <div className="flex space-x-5 md:order-2">
         <Button color="gray" pill onClick={() => dispatch(toggleTheme())}>
           {theme === "light" ? (
-            <FaMoon size={20} />
+            <FaMoon size={15} />
           ) : (
             <IoSunnyOutline size={20} />
           )}
@@ -72,7 +72,7 @@ const Header = () => {
             <Dropdown.Item icon={GoSignOut}>Signout</Dropdown.Item>
           </Dropdown>
         ) : (
-          <Link to="/sign-in">
+          <Link to="/login">
             <Button
               color="gray"
               className="border-none"
