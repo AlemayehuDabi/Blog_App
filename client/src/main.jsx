@@ -7,14 +7,17 @@ import { Provider } from "react-redux";
 import { store } from "./Redux/store.js";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor } from "./Redux/store.js";
+import ThemeComponent from "./component/themeComponent.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <PersistGate persistor={persistor}>
       <Provider store={store}>
-        <Router>
-          <App />
-        </Router>
+        <ThemeComponent>
+          <Router>
+            <App />
+          </Router>
+        </ThemeComponent>
       </Provider>
     </PersistGate>
   </StrictMode>

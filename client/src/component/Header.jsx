@@ -8,15 +8,18 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Avatar } from "flowbite-react";
 import { GoSignOut } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
+import { toggleTheme } from "../Redux/theme/themeSlice";
+import { IoSunnyOutline } from "react-icons/io5";
 
 const Header = () => {
   const path = useLocation().pathname;
   const { currentUser } = useSelector((state) => state.user);
-
+  const { theme } = useSelector((state) => state.theme);
+  const dispatch = useDispatch();
   return (
     <Navbar className="border-b-2">
       <Link
@@ -40,8 +43,12 @@ const Header = () => {
         <AiOutlineSearch />
       </Button>
       <div className="flex space-x-5 md:order-2">
-        <Button color="gray" pill>
-          <FaMoon />
+        <Button color="gray" pill onClick={() => dispatch(toggleTheme())}>
+          {theme === "light" ? (
+            <FaMoon size={20} />
+          ) : (
+            <IoSunnyOutline size={20} />
+          )}
         </Button>
         {currentUser ? (
           <Dropdown

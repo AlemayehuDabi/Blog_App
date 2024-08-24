@@ -3,13 +3,8 @@ import React from "react";
 import { FaGoogle } from "react-icons/fa6";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 import { app } from "../firebase";
-import {
-  userFailure,
-  userStart,
-  userSuccess,
-} from "../Redux/userSlice/userSlice";
+import { userFailure, userStart, userSuccess } from "../Redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
-
 import { useDispatch } from "react-redux";
 
 const OAuth = () => {
