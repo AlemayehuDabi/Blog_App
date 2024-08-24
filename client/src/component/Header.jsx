@@ -1,10 +1,21 @@
-import { Button, Navbar, TextInput } from "flowbite-react";
+import {
+  Button,
+  Dropdown,
+  DropdownHeader,
+  Navbar,
+  TextInput,
+} from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { Avatar } from "flowbite-react";
+import { GoSignOut } from "react-icons/go";
+import { CgProfile } from "react-icons/cg";
 
 const Header = () => {
   const path = useLocation().pathname;
+  const { currentUser } = useSelector((state) => state.user);
 
   return (
     <Navbar className="border-b-2">
@@ -28,23 +39,48 @@ const Header = () => {
       <Button className="md:hidden rounded-full" color="gray">
         <AiOutlineSearch />
       </Button>
-      <div className="flex space-x-4 md:order-2">
+      <div className="flex space-x-5 md:order-2">
         <Button color="gray" pill>
           <FaMoon />
         </Button>
-        <Link to="/sign-in">
-          <Button
-            color="gray"
-            className="border-none"
-            outline
-            pill
-            gradientDuoTone="purpleToBlue"
+        {currentUser ? (
+          <Dropdown
+            placement="left-end"
+            inline
+            arrowIcon={false}
+            label={<Avatar rounded img={`${currentUser.rest.imageUrl}`} />}
           >
-            <span>Sign In</span>
-          </Button>
-        </Link>
+            <DropdownHeader>
+              <span className="block text-sm truncate font-bold">
+                @{currentUser.rest.username}
+              </span>
+              <span className="block text-sm truncate font-normal">
+                {currentUser.rest.email}
+              </span>
+            </DropdownHeader>
+            <Link to={"/dashboard?tab=profile"}>
+              <Dropdown.Item icon={CgProfile}>Profile</Dropdown.Item>
+            </Link>
+            <Dropdown.Divider />
+            <Dropdown.Item icon={GoSignOut}>Signout</Dropdown.Item>
+          </Dropdown>
+        ) : (
+          <Link to="/sign-in">
+            <Button
+              color="gray"
+              className="border-none"
+              outline
+              pill
+              gradientDuoTone="purpleToBlue"
+            >
+              <span>Sign In</span>
+            </Button>
+          </Link>
+        )}
+
         <Navbar.Toggle />
       </div>
+
       <Navbar.Collapse>
         <Navbar.Link as={"div"} active={path === "/"}>
           <Link to="/">Home</Link>

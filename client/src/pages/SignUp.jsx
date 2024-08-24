@@ -52,11 +52,11 @@ const SignUp = () => {
 
         navigate("/");
       }
+      console.log(currentUser.rest.imageUrl);
     } catch (error) {
       return dispatch(userFailure(error.message));
     }
   };
-  f;
 
   return (
     <div className="min-h-screen mt-20 mx-5 md:max-w-3xl md:mx-auto md:flex">
