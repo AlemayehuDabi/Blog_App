@@ -1,22 +1,20 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   userStart,
   userFailure,
   userSuccess,
 } from "../Redux/userSlice/userSlice";
+import OAuth from "../component/OAuth";
 
 const SignIn = () => {
   const [form, setForm] = useState({ email: "", password: "" });
-  // const [error, setError] = useState(null);
-  // const [success, setSuccess] = useState(null);
-  // const [isLoading, setIsLoading] = useState(false);
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const { isLoading, error, success } = useSelector((state) => state.user);
+  const { isLoading, error, currentUser } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.id]: e.target.value.trim() });
@@ -28,7 +26,7 @@ const SignIn = () => {
 
     try {
       if (!form.password || !form.email) {
-        dispatch(userFailure("please fill out all the filled"));
+        return dispatch(userFailure("please fill out all the filled"));
       }
 
       const res = await fetch("api/auth/signin", {
@@ -42,18 +40,20 @@ const SignIn = () => {
       const data = await res.json();
 
       if (data.status === false) {
-        dispatch(userFailure(data.message));
+        return dispatch(userFailure(data.message));
       }
 
       if (data.status === true) {
-        dispatch(userSuccess(data.message));
+        dispatch(userSuccess(data));
         setForm({
           email: "",
           password: "",
         });
+
+        navigate("/");
       }
     } catch (error) {
-      dispatch(userFailure(error));
+      return dispatch(userFailure(error.message));
     }
   };
 
@@ -119,6 +119,7 @@ const SignIn = () => {
               <span>Sign In</span>
             )}
           </Button>
+          <OAuth />
           {error && (
             <Alert
               className="py-4 text-lg font-semibold tracking-wider"
@@ -127,12 +128,12 @@ const SignIn = () => {
               {error}
             </Alert>
           )}
-          {success && (
+          {currentUser && (
             <Alert
               className="py-4 text-lg font-semibold tracking-wider"
               color="success"
             >
-              {success}
+              {currentUser.message}
             </Alert>
           )}
         </form>

@@ -4,7 +4,6 @@ const initialState = {
   currentUser: null,
   isLoading: false,
   error: null,
-  success: null,
 };
 
 const userSlice = createSlice({
@@ -15,15 +14,14 @@ const userSlice = createSlice({
       state.isLoading = true;
       state.currentUser = null;
       state.error = null;
-      state.success = null;
     },
     userSuccess: (state, action) => {
-      state.success = action.payload;
+      state.currentUser = action.payload;
       state.isLoading = false;
+      state.error = null;
     },
     userFailure: (state, action) => {
       state.isLoading = false;
-      state.success = null;
       state.currentUser = null;
       state.error = action.payload;
     },

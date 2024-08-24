@@ -54,7 +54,7 @@ const SignUp = async (req, res, next) => {
       })
       .json({
         status: true,
-        msg: "success",
+        msg: "successfully registered",
         rest,
       });
   } catch (error) {
@@ -62,6 +62,7 @@ const SignUp = async (req, res, next) => {
   }
 };
 
+// sign-in
 const SignIn = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -103,7 +104,7 @@ const SignIn = async (req, res, next) => {
       })
       .json({
         status: true,
-        message: "successfuly loged in",
+        message: "successfully loged in",
         rest,
       });
   } catch (error) {
@@ -111,7 +112,74 @@ const SignIn = async (req, res, next) => {
   }
 };
 
+// google signin
+const Google = async (req, res, next) => {
+  const { username, email, googlePhoto } = req.body;
+  try {
+    const isUser = await User.findOne({
+      email,
+    });
+
+    if (isUser) {
+      // signin
+      const token = jwt.sign({ username: isUser._id }, process.env.JWT_SECRET, {
+        expiresIn: "1W",
+      });
+      const { password: pass, ...rest } = isUser._doc;
+
+      res
+        .status(200)
+        .cookie("Acesses_Token", token, {
+          httpOnly: true,
+        })
+        .json({
+          status: true,
+          msg: "successfully logged-in with google",
+          rest,
+        });
+    } else {
+      // signup
+      const randomPassword =
+        Math.random().toString(36).slice(-9) +
+        Math.random().toString(36).slice(-9);
+
+      const hassedPassword = bcryptjs.hashSync(randomPassword, 10);
+      const user = await User.create({
+        username:
+          username.toLowerCase().split(" ").join("") +
+          Math.random().toString(9).slice(-3),
+        email,
+        password: hassedPassword,
+        imageUrl: googlePhoto,
+      });
+      const token = jwt.sign(
+        {
+          username: user._id,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1W",
+        }
+      );
+      const { password: pass, ...rest } = user._doc;
+      res
+        .status(200)
+        .cookie("Access_Token", token, {
+          httpOnly: true,
+        })
+        .json({
+          status: true,
+          msg: "successfully registered with google",
+          rest,
+        });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   SignUp,
   SignIn,
+  Google,
 };

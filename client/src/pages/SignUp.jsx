@@ -7,6 +7,7 @@ import {
   userFailure,
   userSuccess,
 } from "../Redux/userSlice/userSlice";
+import OAuth from "../component/OAuth";
 
 const SignUp = () => {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
@@ -17,7 +18,7 @@ const SignUp = () => {
     setForm({ ...form, [e.target.id]: e.target.value.trim() });
   };
 
-  const { isLoading, error, success } = useSelector((state) => state.user);
+  const { isLoading, error, currentUser } = useSelector((state) => state.user);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +43,7 @@ const SignUp = () => {
       }
 
       if (data.status === true) {
-        dispatch(userSuccess());
+        dispatch(userSuccess(data));
         setForm({
           username: "",
           email: "",
@@ -52,9 +53,10 @@ const SignUp = () => {
         navigate("/");
       }
     } catch (error) {
-      return dispatch(userFailure(error));
+      return dispatch(userFailure(error.message));
     }
   };
+  f;
 
   return (
     <div className="min-h-screen mt-20 mx-5 md:max-w-3xl md:mx-auto md:flex">
@@ -132,6 +134,7 @@ const SignUp = () => {
               <span>Sign Up</span>
             )}
           </Button>
+          <OAuth />
           {error && (
             <Alert
               className="py-4 text-lg font-semibold tracking-wider"
@@ -140,12 +143,12 @@ const SignUp = () => {
               {error}
             </Alert>
           )}
-          {success && (
+          {currentUser && (
             <Alert
               className="py-4 text-lg font-semibold tracking-wider"
               color="success"
             >
-              {success}
+              {currentUser.message}
             </Alert>
           )}
         </form>
