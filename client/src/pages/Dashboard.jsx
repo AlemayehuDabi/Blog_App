@@ -19,13 +19,13 @@ const Dashboard = () => {
   console.log(tab);
 
   return (
-    <div className="md:flex">
+    <div className="min-h-screen flex flex-col md:flex-row">
       {/* sidebar */}
-      <div className="md:min-h-screen">
+      <div className="md:w-56">
         <DashSidebar />
       </div>
       {/* dashboards */}
-      <div className="">{tab === "profile" && <DashProfile />}</div>
+      {tab === "profile" && <DashProfile />}
     </div>
   );
 };
