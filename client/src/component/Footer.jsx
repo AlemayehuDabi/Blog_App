@@ -11,7 +11,7 @@ import {
 
 const FooterComp = () => {
   return (
-    <Footer container className="border-t-8  border-cyan-600 ">
+    <Footer container className="border-t-8  border-cyan-600">
       <div className="space-y-10 whitespace-nowrap">
         <div>
           <Link

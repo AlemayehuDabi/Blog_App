@@ -123,7 +123,7 @@ const SignUp = () => {
           >
             {isLoading ? (
               <div className="flex space-x-4 justify-center items-center">
-                <Spinner size="sm" />
+                <Spinner size="sm" className="dark:text-white" />
                 <span className="text-lg">Loading</span>
               </div>
             ) : (
